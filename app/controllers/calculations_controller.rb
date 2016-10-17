@@ -67,12 +67,15 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+now=Time.at(@starting)
+future=Time.at(@ending)
+diff = future - now
+    @seconds = @diff
+    @minutes = @seconds/60
+    @hours = @minutes/60
+    @days = @hours/24
+    @weeks = @days/7
+    @years = @weeks/52
 
     # ================================================================================
     # Your code goes above.
@@ -91,7 +94,7 @@ class CalculationsController < ApplicationController
 
     @sorted_numbers = "Replace this string with your answer."
 
-    @count = "Replace this string with your answer."
+    @count = @numbers.count
 
     @minimum = "Replace this string with your answer."
 
