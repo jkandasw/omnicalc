@@ -92,7 +92,7 @@ diff = future - now
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    @sorted_numbers = @numbers.sort
 
     @count = @numbers.count
 
@@ -102,11 +102,11 @@ diff = future - now
 
     @range = @numbers.min, @numbers.max
 
-    @median = "Replace this string with your answer."
+    # @median = @numbers.median
 
     @sum = @numbers.sum
 
-    @mean = "Replace this string with your answer."
+    @mean = (@numbers.sum/@numbers.length)
 
     @variance = "Replace this string with your answer."
 
