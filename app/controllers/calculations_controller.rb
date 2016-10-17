@@ -42,7 +42,7 @@ class CalculationsController < ApplicationController
 # (apr_Calc * principal)/((1-(1+apr_Calc)**(months)))
     @monthly_payment = (@apr_calc * @principal)/((1-(1+@apr_calc)**(@term_months)))
 
-    apr_calc=@apr/12.to_f
+    apr_calc=@apr/1200.to_f
     term_months=-(@years*12)
 
 
@@ -96,15 +96,15 @@ diff = future - now
 
     @count = @numbers.count
 
-    @minimum = "Replace this string with your answer."
+    @minimum = @numbers.min
 
-    @maximum = "Replace this string with your answer."
+    @maximum = @numbers.max
 
-    @range = "Replace this string with your answer."
+    @range = @numbers.min, @numbers.max
 
     @median = "Replace this string with your answer."
 
-    @sum = "Replace this string with your answer."
+    @sum = @numbers.sum
 
     @mean = "Replace this string with your answer."
 
