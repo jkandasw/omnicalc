@@ -102,25 +102,15 @@ diff = future - now
 
     @range = @numbers.min, @numbers.max
 
-    #  @median = @sorted_numbers.median
-     @median_length = @sorted_numbers.length/2
-
-    if @median_length.odd?
-      @median=@sorted_numbers.(median_length)
-    else
-      @median=(@sorted_numbers.(median_length)+(@sorted_numbers.(median_length)-1))/2
+    @median=
+    {
+      if @sorted_numbers.length.odd?
+        return (@sorted_numbers[@sorted_numbers.length-1]/2)
+      else @sorted_numbers.length.even?
+        return(@sorted_numbers[@sorted_numbers.length/2] + @sorted_numbers[@sorted_numbers.length/2 - 1])/2.to_f]
+      end
     end
-
-
-
-
-    #  : @sorted_numbers.@median_length
-
-    #  {
-      #  final_length = median_length/2
-    #  else
-      #  final_length =
-    #  }
+  }
 
     @sum = @numbers.sum
 
