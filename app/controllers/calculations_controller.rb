@@ -40,12 +40,9 @@ class CalculationsController < ApplicationController
 
 # @monthly_payment = @apr/12 * @principal
 # (apr_Calc * principal)/((1-(1+apr_Calc)**(months)))
+@apr_calc=@apr/1200.to_f
+@term_months=-(@years*12)
     @monthly_payment = (@apr_calc * @principal)/((1-(1+@apr_calc)**(@term_months)))
-
-    apr_calc=@apr/1200.to_f
-    term_months=-(@years*12)
-
-
 
     # ================================================================================
     # Your code goes above.
@@ -102,23 +99,25 @@ diff = future - now
 
     @range = @numbers.min, @numbers.max
 
-    @median=
-    {
-      if @sorted_numbers.length.odd?
-        return (@sorted_numbers[@sorted_numbers.length-1]/2)
-      else @sorted_numbers.length.even?
-        return(@sorted_numbers[@sorted_numbers.length/2] + @sorted_numbers[@sorted_numbers.length/2 - 1])/2.to_f]
-      end
-    end
-  }
+
+if @sorted_numbers.count.odd?
+@half=@sorted_numbers.length/2
+@half_length=@half.to_i
+@median=@numbers[@half_length]
+else @median=(@sorted_numbers[@half_length]+@sorted_numbers[@half_length-1])/2
+end
 
     @sum = @numbers.sum
 
     @mean = (@numbers.sum/@numbers.length)
 
-    @variance = "Replace this string with your answer."
+@variance = 0
+limit = @sorted_numbers.length;
+for counter in 0..limit
+  @variance = @variance + (@sorted_numbers[@limit].to_f - avg)**2
+ end
 
-    @standard_deviation = "Replace this string with your answer."
+    @standard_deviation = sqrt(@variance)
 
     @mode = "Replace this string with your answer."
 
