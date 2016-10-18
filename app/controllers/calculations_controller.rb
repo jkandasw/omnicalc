@@ -102,7 +102,25 @@ diff = future - now
 
     @range = @numbers.min, @numbers.max
 
-    # @median = @numbers.median
+    #  @median = @sorted_numbers.median
+     @median_length = @sorted_numbers.length/2
+
+    if @median_length.odd?
+      @median=@sorted_numbers.(median_length)
+    else
+      @median=(@sorted_numbers.(median_length)+(@sorted_numbers.(median_length)-1))/2
+    end
+
+
+
+
+    #  : @sorted_numbers.@median_length
+
+    #  {
+      #  final_length = median_length/2
+    #  else
+      #  final_length =
+    #  }
 
     @sum = @numbers.sum
 
