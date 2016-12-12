@@ -38,7 +38,7 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-# @monthly_payment = @apr/12 * @principal
+    # @monthly_payment = @apr/12 * @principal
 # (apr_Calc * principal)/((1-(1+apr_Calc)**(months)))
 @apr_calc=@apr/1200.to_f
 @term_months=-(@years*12)
@@ -52,79 +52,88 @@ class CalculationsController < ApplicationController
   end
 
   def time_between
-    @starting = Chronic.parse(params[:starting_time])
-    @ending = Chronic.parse(params[:ending_time])
+      @starting = Chronic.parse(params[:starting_time])
+      @ending = Chronic.parse(params[:ending_time])
 
-    # ================================================================================
-    # Your code goes below.
-    # The start time is in the Time @starting.
-    # The end time is in the Time @ending.
-    # Note: Ruby stores Times in terms of seconds since Jan 1, 1970.
-    #   So if you subtract one time from another, you will get an integer
-    #   number of seconds as a result.
-    # ================================================================================
+      # ==========================================================================
+      # Your code goes below.
+      # The start time is in the Time @starting.
+      # The end time is in the Time @ending.
+      # Note: Ruby stores Times in terms of seconds since Jan 1, 1970.
+      #   So if you subtract one time from another, you will get an integer
+      #   number of seconds as a result.
+      # ==========================================================================
 
-now=Time.at(@starting)
-future=Time.at(@ending)
-diff = future - now
-    @seconds = @diff
-    @minutes = @seconds/60
-    @hours = @minutes/60
-    @days = @hours/24
-    @weeks = @days/7
-    @years = @weeks/52
+      @seconds = @ending - @starting
+      @minutes = @seconds / 1.minute # 1.minute is just shorthand for 1 * 60
+      @hours = @seconds / 1.hour # 1.hour is just shorthand for 1 * 3600
+      @days = @seconds / 1.day
+      @weeks = @seconds / 1.week
+      @years = @seconds / 1.year
+    end
 
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
+    def descriptive_statistics
+      @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
 
-    render("time_between.html.erb")
-  end
+      # ==========================================================================
+      # Your code goes below.
+      # The numbers the user input are in the array @numbers.
+      # ==========================================================================
 
-  def descriptive_statistics
-    @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
+      @sorted_numbers = @numbers.sort
 
-    # ================================================================================
-    # Your code goes below.
-    # The numbers the user input are in the array @numbers.
-    # ================================================================================
+      @count = @numbers.count
 
-    @sorted_numbers = @numbers.sort
+      @minimum = @numbers.min
 
-    @count = @numbers.count
+      @maximum = @numbers.max
 
-    @minimum = @numbers.min
+      @range = @maximum - @minimum
 
-    @maximum = @numbers.max
+      # Median
+      # ======
+      if @count.odd?
+        @median = @sorted_numbers[@count / 2]
+      else
+        left_of_middle = @sorted_numbers[(@count / 2) - 1]
+        right_of_middle = @sorted_numbers[(@count / 2)]
+        @median = (left_of_middle + right_of_middle) / 2
+      end
 
-    @range = @numbers.min, @numbers.max
+
+      @sum = @numbers.sum
+
+      @mean = @sum / @count
+
+      # Variance
+      # ========
+      squared_differences = []
+
+      @numbers.each do |num|
+        difference = num - @mean
+        squared_difference = difference ** 2
+        squared_differences.push(squared_difference)
+      end
+
+      @variance = squared_differences.sum / @count
 
 
-if @sorted_numbers.count.odd?
-@half=@sorted_numbers.length/2
-@half_length=@half.to_i
-@median=@numbers[@half_length]
-else @median=(@sorted_numbers[@half_length]+@sorted_numbers[@half_length-1])/2
-end
+      @standard_deviation = Math.sqrt(@variance)
 
-    @sum = @numbers.sum
+      # Mode
+      # ====
 
-    @mean = (@numbers.sum/@numbers.length)
+      leader = nil
+      leader_count = 0
 
-@variance = 0
-limit = @sorted_numbers.length;
-for counter in 0..limit
-  @variance = @variance + (@sorted_numbers[@limit].to_f - avg)**2
- end
+      @numbers.each do |num|
+        occurrences = @numbers.count(num)
+        if occurrences > leader_count
+          leader = num
+          leader_count = occurrences
+        end
+      end
 
-    @standard_deviation = sqrt(@variance)
-
-    @mode = "Replace this string with your answer."
-
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
-
-    render("descriptive_statistics.html.erb")
-  end
+      @mode = leader
+    end
 end
