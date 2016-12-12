@@ -19,9 +19,6 @@ class CalculationsController < ApplicationController
 
     @occurrences = @text.index(/[a-z]/)
 
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
 
     render("word_count.html.erb")
   end
@@ -31,22 +28,9 @@ class CalculationsController < ApplicationController
     @years = params[:number_of_years].to_i
     @principal = params[:principal_value].to_f
 
-    # ================================================================================
-    # Your code goes below.
-    # The annual percentage rate the user input is in the decimal @apr.
-    # The number of years the user input is in the integer @years.
-    # The principal value the user input is in the decimal @principal.
-    # ================================================================================
-
-    # @monthly_payment = @apr/12 * @principal
-# (apr_Calc * principal)/((1-(1+apr_Calc)**(months)))
 @apr_calc=@apr/1200.to_f
 @term_months=-(@years*12)
     @monthly_payment = (@apr_calc * @principal)/((1-(1+@apr_calc)**(@term_months)))
-
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
 
     render("loan_payment.html.erb")
   end
@@ -55,18 +39,9 @@ class CalculationsController < ApplicationController
       @starting = Chronic.parse(params[:starting_time])
       @ending = Chronic.parse(params[:ending_time])
 
-      # ==========================================================================
-      # Your code goes below.
-      # The start time is in the Time @starting.
-      # The end time is in the Time @ending.
-      # Note: Ruby stores Times in terms of seconds since Jan 1, 1970.
-      #   So if you subtract one time from another, you will get an integer
-      #   number of seconds as a result.
-      # ==========================================================================
-
       @seconds = @ending - @starting
-      @minutes = @seconds / 1.minute # 1.minute is just shorthand for 1 * 60
-      @hours = @seconds / 1.hour # 1.hour is just shorthand for 1 * 3600
+      @minutes = @seconds / 1 * 60
+      @hours = @seconds / 1 * 3600
       @days = @seconds / 1.day
       @weeks = @seconds / 1.week
       @years = @seconds / 1.year
@@ -74,11 +49,6 @@ class CalculationsController < ApplicationController
 
     def descriptive_statistics
       @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
-
-      # ==========================================================================
-      # Your code goes below.
-      # The numbers the user input are in the array @numbers.
-      # ==========================================================================
 
       @sorted_numbers = @numbers.sort
 
